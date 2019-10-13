@@ -165,7 +165,6 @@ def translate(config: Configr.Config, test: bool) -> int:
                 # check if we're crossing entries
                 (new_entry, swap_d_t) = is_at_new_entry(config, line_buffer)
                 if new_entry:
-                    entry_count += 1
 
                     # figure out the new filename data
                     raw_title = line_buffer[buffer_title_index]
@@ -174,36 +173,29 @@ def translate(config: Configr.Config, test: bool) -> int:
                     if swap_d_t:
                         raw_date, raw_title = raw_title, raw_date
 
-                    (filename, title, date) = get_file_name(config, raw_title, raw_date)
-                    current_date = date
-
-                    if not test:
-                        # cycle to the next file
-                        outfile.close()
-                        outfile = open(save_dir + filename, 'w')
-                        write_header(outfile, raw_title, raw_date)
-
-                    # reset the buffer
-                    line_buffer = []
-
                 elif known_dateless(config, line_buffer):
-                    entry_count += 1
 
                     raw_title = known_dateless(config, line_buffer)
                     raw_date = current_date
 
-                    (filename, title, date) = get_file_name(config, raw_title, raw_date)
+                else:
+                    continue
 
-                    current_date = date
+                (filename, title, date) = get_file_name(config, raw_title, raw_date)
 
-                    if not test:
-                        # cycle to the next file
-                        outfile.close()
-                        outfile = open(save_dir + filename, 'w')
-                        write_header(outfile, title, raw_date)
+                current_date = date
 
-                    # reset the buffer
-                    line_buffer = []
+                if not test:
+                    # cycle to the next file
+                    outfile.close()
+                    outfile = open(save_dir + filename, 'w')
+                    write_header(outfile, raw_title, raw_date)
+
+                # reset the buffer
+                line_buffer = []
+
+                # tally the closed entry
+                entry_count += 1
 
     if not test:
         for buff in line_buffer:
