@@ -7,14 +7,6 @@ import glob
 journal_entries = []
 my_path = './entries-new/'
 
-# def print_result(entries):
-#     for e in entries:
-#         print(e['title'])
-#         print(e['date'])
-#         print(e['body'])
-#         print('\n\n')
-#
-#
 for filename in glob.iglob(my_path + '**/*.txt', recursive=True):
     f = filename.split('/')[-1]
     print(f)
