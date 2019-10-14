@@ -23,6 +23,23 @@ class Config(object):
         self.buffer = Buffer(d)
         self.anomalies = Dates(d)
 
+    # TODO: choose one of these 3
+    def is_at_new_entry_3(self) -> bool:
+        return self.buffer.is_at_new_entry(self.anomalies)
+
+    def is_at_new_entry_2(self) -> bool:
+        if not self.buffer.is_aligned:
+            return False
+
+        if self.anomalies.is_date(self.buffer.item_at_date):
+            return True
+
+        if self.buffer.ambiguous and self.anomalies.is_date(self.buffer.item_at_title):
+            self.buffer.reverse_title_and_date()
+            return True
+
+        return False
+
     def is_at_new_entry(self, b: List[str]) -> (bool, bool):
         """ Checks whether the current line buffer is at the start of a new entry
 

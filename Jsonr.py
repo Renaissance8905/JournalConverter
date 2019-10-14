@@ -1,7 +1,6 @@
 import datetime
 import json
 import os
-import pprint
 import glob
 
 journal_entries = []

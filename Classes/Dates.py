@@ -16,7 +16,6 @@ class Dates(object):
         Also checks the date whitelist to see if this is
         an unparseable date that we already know about
 
-        :rtype: bool
         :param d: the string to be checked for date-ness
         :return: true if input looks like a date
         """
@@ -48,7 +47,6 @@ class Dates(object):
         to looking for matches from that list, this also requires
         that all other lines in the buffer are blank
 
-        :rtype: str (optional)
         :param b: the current line buffer to check
         :return: the matched entry title, if any
         """
